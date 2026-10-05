@@ -147,3 +147,13 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+.env
+.tmp/
+.cache/
+build/
+dist/
+.strapi/
+*.db
+public/uploads/*
+!public/uploads/.gitkeep
