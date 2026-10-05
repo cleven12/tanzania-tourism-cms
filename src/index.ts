@@ -19,7 +19,7 @@ export default {
     if (!role) return;
     const permQuery = strapi.db.query('plugin::users-permissions.permission');
     for (const [uid, actions] of Object.entries(PUBLIC_PERMISSIONS)) {
-      if (!(strapi as any).api[uid.split('::')[1].split('.')[0]]) continue;
+      if (!strapi.controller(uid as any)) continue;
       for (const a of actions) {
         const action = `${uid}.${a}`;
         const exists = await permQuery.findOne({ where: { action, role: role.id } });
