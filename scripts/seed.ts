@@ -45,6 +45,11 @@ async function main() {
     }
 
     const dests: Record<string, string> = {};
+    const coords: Record<string, [number, number]> = {
+      Serengeti: [-2.3333, 34.8333],
+      Kilimanjaro: [-3.0674, 37.3556],
+      Zanzibar: [-6.1659, 39.2026],
+    };
     for (const [name, region, summary] of [
       ['Serengeti', 'Northern Tanzania', 'Endless plains and the great wildebeest migration.'],
       ['Kilimanjaro', 'Kilimanjaro Region', 'The roof of Africa at 5,895 m.'],
@@ -53,6 +58,7 @@ async function main() {
       dests[name] = (
         await create('api::destination.destination', {
           name, slug: slugify(name), region, summary,
+          latitude: coords[name][0], longitude: coords[name][1],
           description: `${summary}\n\nExplore ${name} with local expert guides.`,
           seo: seo(`${name} Tours & Travel Guide`, summary, `${name.toLowerCase()} tours`),
         })

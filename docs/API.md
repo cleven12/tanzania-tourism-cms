@@ -20,7 +20,7 @@ curl "http://localhost:1337/api/categories"
 curl "http://localhost:1337/api/testimonials"
 ```
 
-Standard list responses with Strapi pagination, filters and `populate`.
+Standard list responses with Strapi pagination, filters and `populate`. Destinations include optional `latitude` and `longitude` (decimal degrees) for maps.
 
 ## Site settings
 

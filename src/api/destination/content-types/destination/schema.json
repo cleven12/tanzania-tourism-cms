@@ -29,6 +29,12 @@
     "region": {
       "type": "string"
     },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    },
     "coverImage": {
       "type": "media",
       "multiple": false,

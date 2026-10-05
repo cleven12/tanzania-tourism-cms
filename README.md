@@ -42,6 +42,10 @@ npm run seed           # sample tours, destinations, categories
 npm run develop        # admin at http://localhost:1337/admin
 ```
 
+## Images
+
+Upload web-sized images in the admin: about 2000 px wide, JPEG or WebP, under 500 KB. Never upload 5-10 MB originals; the frontend serves them through an image optimizer but a smaller source is faster and cheaper. All prices are in USD.
+
 ## API overview
 
 | Method | Endpoint | Description |
