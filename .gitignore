@@ -157,3 +157,5 @@ dist/
 *.db
 public/uploads/*
 !public/uploads/.gitkeep
+.strapi-updater.json
+dist/
