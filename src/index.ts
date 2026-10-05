@@ -1,20 +1,30 @@
-// import type { Core } from '@strapi/strapi';
+import type { Core } from '@strapi/strapi';
+
+const PUBLIC_PERMISSIONS: Record<string, string[]> = {
+  'api::tour.tour': ['find', 'findOne'],
+  'api::destination.destination': ['find', 'findOne'],
+  'api::category.category': ['find', 'findOne'],
+  'api::testimonial.testimonial': ['find', 'findOne'],
+  'api::site-setting.site-setting': ['find'],
+  'api::enquiry.enquiry': ['create'],
+  'api::search.search': ['find'],
+  'api::sitemap.sitemap': ['find'],
+};
 
 export default {
-  /**
-   * An asynchronous register function that runs before
-   * your application is initialized.
-   *
-   * This gives you an opportunity to extend code.
-   */
-  register(/* { strapi }: { strapi: Core.Strapi } */) {},
+  register() {},
 
-  /**
-   * An asynchronous bootstrap function that runs before
-   * your application gets started.
-   *
-   * This gives you an opportunity to set up your data model,
-   * run jobs, or perform some special logic.
-   */
-  bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
+  async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    const role = await strapi.db.query('plugin::users-permissions.role').findOne({ where: { type: 'public' } });
+    if (!role) return;
+    const permQuery = strapi.db.query('plugin::users-permissions.permission');
+    for (const [uid, actions] of Object.entries(PUBLIC_PERMISSIONS)) {
+      if (!(strapi as any).api[uid.split('::')[1].split('.')[0]]) continue;
+      for (const a of actions) {
+        const action = `${uid}.${a}`;
+        const exists = await permQuery.findOne({ where: { action, role: role.id } });
+        if (!exists) await permQuery.create({ data: { action, role: role.id } });
+      }
+    }
+  },
 };
